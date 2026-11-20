@@ -121,3 +121,11 @@ Capturas de la interfaz `adk web`, en la carpeta [docs/capturas/](docs/capturas/
 **Búsqueda de recomendaciones (`web_search`)**
 
 ![Búsqueda web](docs/capturas/web.png)
+
+**Consulta combinada (varias tools en una respuesta)**
+
+![Consulta combinada](docs/capturas/combinada.png)
+
+**Manejo de errores**
+
+![Manejo de errores](docs/capturas/error.png)
