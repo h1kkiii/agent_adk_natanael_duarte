@@ -100,7 +100,7 @@ agent_adk_natanael_duarte/
 │       ├── get_weather.py
 │       ├── convert_currency.py
 │       └── web_search.py
-├── docs/                    # capturas de pantalla
+├── docs/capturas/           # capturas de pantalla
 ├── requirements.txt
 ├── .gitignore
 └── README.md
@@ -108,10 +108,16 @@ agent_adk_natanael_duarte/
 
 ## Capturas
 
-Las capturas de la interfaz `adk web` están en la carpeta [docs/](docs/):
+Capturas de la interfaz `adk web`, en la carpeta [docs/capturas/](docs/capturas/):
 
-- Consulta de clima: `docs/clima.png`
-- Conversión de moneda: `docs/moneda.png`
-- Búsqueda de recomendaciones: `docs/busqueda.png`
-- Consulta combinada: `docs/combinada.png`
-- Manejo de errores: `docs/errores.png`
+**Consulta de clima (`get_weather`)**
+
+![Consulta de clima](docs/capturas/clima.png)
+
+**Conversión de moneda (`convert_currency`)**
+
+![Conversión de moneda](docs/capturas/moneda.png)
+
+**Búsqueda de recomendaciones (`web_search`)**
+
+![Búsqueda web](docs/capturas/web.png)
