@@ -1,8 +1,12 @@
+import time
+
 from ddgs import DDGS
 
 from ._respuestas import error, es_entero, ok, vacio
 
 TIMEOUT = 10
+INTENTOS = 3
+PAUSA_REINTENTO = 1.5
 
 
 def web_search(query: str, max_results: int = 5) -> dict:
@@ -33,13 +37,24 @@ def web_search(query: str, max_results: int = 5) -> dict:
         return error(f"El argumento 'max_results' debe estar entre 1 y 10 (recibido: {max_results}).")
 
     consulta = query.strip()
-    try:
-        crudos = DDGS(timeout=TIMEOUT).text(consulta, max_results=max_results)
-    except Exception as e:
-        # ddgs usa excepciones propias; "sin resultados" se reporta como vacío y el resto como error.
-        if "No results found" in str(e):
-            return vacio(f"No se encontraron resultados para '{consulta}'. Probá con otras palabras.")
-        return error(f"No se pudo completar la búsqueda: {e}")
+    crudos = None
+    ultimo_error = None
+    # ddgs consulta buscadores externos que fallan o limitan de forma intermitente
+    # ("No results found" o cortes de conexión con la misma consulta), por eso se reintenta.
+    for intento in range(INTENTOS):
+        if intento:
+            time.sleep(PAUSA_REINTENTO)
+        try:
+            crudos = DDGS(timeout=TIMEOUT).text(consulta, max_results=max_results)
+        except Exception as e:
+            ultimo_error = e
+            continue
+        if crudos:
+            ultimo_error = None
+            break
+
+    if not crudos and ultimo_error is not None and "No results found" not in str(ultimo_error):
+        return error(f"No se pudo completar la búsqueda: {ultimo_error}")
 
     resultados = [
         {"titulo": r.get("title", ""), "resumen": r.get("body", ""), "url": r.get("href", "")}
